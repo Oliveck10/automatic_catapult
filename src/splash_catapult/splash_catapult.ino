@@ -9,7 +9,7 @@
 // *************************** 0323 note ******************************
 // Hardware improvement:
 // - The band can be extended more to provide better elasticity
-// - Change the fulcrum (support point) structure and also increase moment arm
+// - Change the fulcrum (support point) structure and also increase the moment arm
 // - Test heavier and bigger object
 // *************************** 0323 note ******************************
 
@@ -55,8 +55,8 @@ void loop() {
       int buttonState = digitalRead(button_pin);
       Serial.println(buttonState);
 
-      if (buttonState != lastState) {
-          if (buttonState == HIGH) {
+      if (buttonState != lastState) { // check the state change
+          if (buttonState == HIGH) { // check if triggered
 
             // lock the catapult (counter-clockwise spin locker)
               Serial.println("locker lock!");
