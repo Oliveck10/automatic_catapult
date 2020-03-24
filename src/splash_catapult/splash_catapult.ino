@@ -36,6 +36,18 @@ int rotator_clockwise_speed = 160;
 int rotator_duration = 3800;
 int rotator_stop = 90;
 
+// 180 degree servo for airflow control
+Servo airflowController;
+const int airflow_pin = 10;
+int airflow_pos = 0; // init
+int airflow_final_angle = 180;
+int airflow_delay = 1000;
+
+// solenoid valve for compressed air (on/off)
+const int valve_pin = 8;
+int valve_delay = 2000;
+int vavle_open_duration = 200;
+
 // // reset function for rotator (spin small angle)
 //  rotator.write(160);
 //  delay(200);
@@ -47,6 +59,10 @@ void setup() {
   rotator.attach(rotator_pin); // make the rotator's pin an output 
   locker.attach(locker_pin);   // make the locker's pin an output
   locker.write(locker_pos); 
+  airflowController.attach(airflow_pin); // make the airflowController's pin an output
+  airflowController.write(airflow_pos); // set airflow to 0 
+  pinMode(valve_pin, OUTPUT);  // make the valve's pin an output
+  digitalWrite(valve_pin,LOW);  // set valve to off
 }
 
 void loop() {
@@ -58,6 +74,12 @@ void loop() {
       if (buttonState != lastState) { // check the state change
           if (buttonState == HIGH) { // check if triggered
 
+            // set airflow
+              Serial.println("set airflow!");
+              airflowController.write(airflow_final_angle);
+              delay(airflow_delay);
+              
+            
             // lock the catapult (counter-clockwise spin locker)
               Serial.println("locker lock!");
               for (locker_pos = 0; locker_pos <= locker_final_angle; locker_pos +=1) {
@@ -79,14 +101,23 @@ void loop() {
               }
             
             // splash water (delay X seconds calculated by formula after unlock catapult)
-            // ...
-                  
+              delay(valve_delay);
+              Serial.println("valve on!");
+              digitalWrite(valve_pin,HIGH);
+              delay(vavle_open_duration);
+              digitalWrite(valve_pin,LOW);
+              Serial.println("valve off!");    
             
             // release spring (clockwise spin rotator)
               Serial.println("rotator release!");
               rotator.write(rotator_clockwise_speed); // clockwise spin
               delay(rotator_duration + 300);
               rotator.write(rotator_stop); // stop
+
+            // close airflow
+              Serial.println("close airflow!");
+              airflowController.write(airflow_pos);
+              delay(airflow_delay);
           }
       }
       
