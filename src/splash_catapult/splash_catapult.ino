@@ -107,17 +107,21 @@ void loop() {
               delay(vavle_open_duration);
               digitalWrite(valve_pin,LOW);
               Serial.println("valve off!");    
-            
-            // release spring (clockwise spin rotator)
-              Serial.println("rotator release!");
-              rotator.write(rotator_clockwise_speed); // clockwise spin
-              delay(rotator_duration + 300);
-              rotator.write(rotator_stop); // stop
 
             // close airflow
               Serial.println("close airflow!");
               airflowController.write(airflow_pos);
               delay(airflow_delay);
+
+            // release spring (clockwise spin rotator)
+              Serial.println("rotator release!");
+              rotator.write(rotator_clockwise_speed); // clockwise spin
+              delay(rotator_duration + 300);
+              rotator.write(rotator_stop); // stop            // release spring (clockwise spin rotator)
+              Serial.println("rotator release!");
+              rotator.write(rotator_clockwise_speed); // clockwise spin
+              delay(rotator_duration + 300);
+              rotator.write(rotator_stop); // stop
           }
       }
       
