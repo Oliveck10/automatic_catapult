@@ -117,10 +117,6 @@ void loop() {
               Serial.println("rotator release!");
               rotator.write(rotator_clockwise_speed); // clockwise spin
               delay(rotator_duration + 300);
-              rotator.write(rotator_stop); // stop            // release spring (clockwise spin rotator)
-              Serial.println("rotator release!");
-              rotator.write(rotator_clockwise_speed); // clockwise spin
-              delay(rotator_duration + 300);
               rotator.write(rotator_stop); // stop
           }
       }
