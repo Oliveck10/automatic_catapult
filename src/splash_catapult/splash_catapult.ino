@@ -33,7 +33,7 @@ int rotator_pos = 0; // init
 // rotation_speed (slower when approach)
 int rotator_counter_clockwise_speed = 20;
 int rotator_clockwise_speed = 160;
-int rotator_duration = 3800;
+int rotator_duration = 3800; // 2000
 int rotator_stop = 90;
 
 // 180 degree servo for airflow control
@@ -116,7 +116,7 @@ void loop() {
             // release spring (clockwise spin rotator)
               Serial.println("rotator release!");
               rotator.write(rotator_clockwise_speed); // clockwise spin
-              delay(rotator_duration + 300);
+              delay(rotator_duration);
               rotator.write(rotator_stop); // stop
           }
       }
